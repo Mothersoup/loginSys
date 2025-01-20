@@ -24,11 +24,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     // because interface define can't change args here
+    // 這邊的 username 這邊裡面的參數是 studentNumber
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        int userId = Integer.parseInt(username); // Convert the username to an int
-        User user = userService.findStudentById( userId );
-        return toUserDetails(user);
-
+        return toUserDetails(userService.findStudentByStudentNum( username));
     }
 
     private UserDetails toUserDetails(User user) {

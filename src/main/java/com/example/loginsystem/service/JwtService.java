@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import java.nio.ByteBuffer;
@@ -21,9 +22,8 @@ public class JwtService {
     @Value("${security.jwt.secret-key}")
     private String secretKey;
 
-    /**
-     * 過期時間：以分鐘為單位
-     */
+    //過期時間：以分鐘為單位
+
     @Value("${security.jwt.expiration-time}")
     private long jwtExpiration;
 
@@ -74,5 +74,16 @@ public class JwtService {
 
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
+    }
+
+    public String generateToken(Authentication authentication, long expirationMinutes) {
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return Jwts.builder()
+                .setSubject( userDetails.getUsername())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + expirationMinutes * 60 * 1000))
+                .signWith(getSignInKey())
+                .compact();
     }
 }

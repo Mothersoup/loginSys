@@ -1,17 +1,23 @@
 package com.example.loginsystem;
 
 
+import com.example.loginsystem.exception.EmailAlreadyExistException;
 import com.example.loginsystem.model.dto.SignUpDTO;
 import com.example.loginsystem.model.entity.User;
 import com.example.loginsystem.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -24,36 +30,53 @@ import java.time.LocalDateTime;
 public class SignUpController {
 
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
+
 
     @Autowired
-    public SignUpController(UserService userService, PasswordEncoder passwordEncoder) {
+    public SignUpController(UserService userService) {
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
     }
 
-    @RequestMapping(value = "/signUp", method = RequestMethod.POST)
-    public ResponseEntity<String> registerStudent(@RequestBody SignUpDTO signUpDTO) {
-
-        if (userService.checkIfEmailExists(signUpDTO.getEmail())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already in use");
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<?> signUp( @Valid @RequestBody SignUpDTO signUpDTO,  BindingResult result) {
+        if (result.hasErrors()) {
+            String errorMessage = formatBindingResultErrors(result);
+            return ResponseEntity.badRequest().body(createErrorResponse("format", errorMessage));
         }
-        // 設置創建時間
-        LocalDateTime localDateTime = LocalDateTime.now();
-        Timestamp createTime = Timestamp.valueOf(localDateTime);
 
-        // setting create time
-        // 將 DTO 轉換為 User 實體
-        User user = new User();
-        user.setEmail(signUpDTO.getEmail());
-        user.setLastName(signUpDTO.getLastName());
-        user.setFirstName(signUpDTO.getFirstName());
-        user.setPassword(passwordEncoder.encode(signUpDTO.getPassword()));
-        user.setCreatedAt(createTime);
-        ///
-        userService.saveStudent(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Student registered successfully");
+        try {
+            userService.RegisterNewStudent(signUpDTO);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(createSuccessResponse("Student registered successfully"));
+        } catch (EmailAlreadyExistException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(createErrorResponse("Conflict", e.getMessage()));
+        }
+
+
     }
 
 
+
+    private String formatBindingResultErrors(BindingResult result) {
+        StringBuilder errorMessage = new StringBuilder();
+        result.getAllErrors().forEach(error -> errorMessage.append(error.getDefaultMessage()).append("\n"));
+        return errorMessage.toString();
+    }
+
+    private Map<String, Object> createSuccessResponse(String message) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("message", message);
+        return response;
+    }
+
+
+    private Map<String, Object> createErrorResponse(String error, String message) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "error");
+        response.put("error", error);
+        response.put("message", message);
+        return response;
+    }
 }
