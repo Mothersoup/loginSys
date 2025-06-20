@@ -2,7 +2,7 @@ package com.example.loginsystem.controller;
 
 
 import com.example.loginsystem.exception.EmailAlreadyExistException;
-import com.example.loginsystem.model.dto.SignUpDTO;
+import com.example.loginsystem.dto.SignUpDTO;
 import com.example.loginsystem.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

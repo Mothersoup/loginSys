@@ -1,7 +1,7 @@
 package com.example.loginsystem.mapper;
 
 
-import com.example.loginsystem.model.dto.SignUpDTO;
+import com.example.loginsystem.dto.SignUpDTO;
 import com.example.loginsystem.model.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

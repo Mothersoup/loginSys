@@ -1,6 +1,6 @@
 package com.example.loginsystem.service.impl;
 
-import com.example.loginsystem.model.dto.LoginDTO;
+import com.example.loginsystem.dto.LoginDTO;
 import com.example.loginsystem.service.ILoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;

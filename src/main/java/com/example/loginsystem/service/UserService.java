@@ -1,17 +1,15 @@
 package com.example.loginsystem.service;
 
 
-import com.example.loginsystem.exception.EmailAlreadyExistException;
 import com.example.loginsystem.exception.NotFoundException;
 import com.example.loginsystem.mapper.UserMapper;
-import com.example.loginsystem.model.dto.SignUpDTO;
+import com.example.loginsystem.dto.SignUpDTO;
 import com.example.loginsystem.model.entity.User;
 import com.example.loginsystem.repo.UserRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;

@@ -1,6 +1,6 @@
 package com.example.loginsystem.service;
 
-import com.example.loginsystem.model.dto.LoginDTO;
+import com.example.loginsystem.dto.LoginDTO;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

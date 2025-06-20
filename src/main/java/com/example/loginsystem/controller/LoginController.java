@@ -1,7 +1,7 @@
 package com.example.loginsystem.controller;
 
 
-import com.example.loginsystem.model.dto.LoginDTO;
+import com.example.loginsystem.dto.LoginDTO;
 import com.example.loginsystem.service.JwtService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;

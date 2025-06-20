@@ -2,20 +2,15 @@ package com.example.loginsystem;
 
 
 import com.example.loginsystem.exception.EmailAlreadyExistException;
-import com.example.loginsystem.model.dto.SignUpDTO;
-import com.example.loginsystem.model.entity.User;
+import com.example.loginsystem.dto.SignUpDTO;
 import com.example.loginsystem.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 

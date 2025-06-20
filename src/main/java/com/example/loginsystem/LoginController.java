@@ -1,10 +1,8 @@
 package com.example.loginsystem;
 
 
-import com.example.loginsystem.model.dto.LoginDTO;
-import com.example.loginsystem.model.dto.SignUpDTO;
+import com.example.loginsystem.dto.LoginDTO;
 import com.example.loginsystem.service.JwtService;
-import com.example.loginsystem.service.UserDetailsServiceImpl;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
