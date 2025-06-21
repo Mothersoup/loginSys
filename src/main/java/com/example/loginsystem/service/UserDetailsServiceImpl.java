@@ -16,7 +16,7 @@ import java.util.List;
 public class UserDetailsServiceImpl implements UserDetailsService {
     private  final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final UserService userService;
-    private static List<User> users = new ArrayList<>();
+    // private static List<User> users = new ArrayList<>();
     @Autowired
     public UserDetailsServiceImpl(UserService userService){
         this.userService = userService;

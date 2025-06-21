@@ -25,9 +25,9 @@ public class LoginServiceImp implements ILoginService
     @Override
     public String login(LoginDTO loginDTO) {
         log.debug("開始處理登入業務,參數:{}", loginDTO);
-        Authentication authentication =
-                //將(帳號,密碼)傳入
-                new UsernamePasswordAuthenticationToken(loginDTO.getStudentNumber(), loginDTO.getPassword());
+//        Authentication authentication =
+//                //將(帳號,密碼)傳入
+//                new UsernamePasswordAuthenticationToken(loginDTO.getStudentNumber(), loginDTO.getPassword());
 
         return "";
     }
