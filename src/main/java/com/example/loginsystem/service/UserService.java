@@ -18,9 +18,8 @@ import java.time.LocalDateTime;
 @Service
 public class UserService {
     private final UserRepo userRepo;
+
     private final PasswordEncoder passwordEncoder;
-
-
     private final UserValidationService userValidationService;
     private final UserMapper userMapper;
 
@@ -47,8 +46,14 @@ public class UserService {
             .orElseThrow(() -> new NotFoundException("Student not found with Student Number: " + studentNum));
     }
 
+    public User findStudentByEmail( String email ){
+        return this.userRepo.findUserByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Student not found with Student Number: " + email  ));
+    }
+
+
     /*
-    transactional interfere with db operation if cause error this operation would roll back 
+    transactional interfere with db operation if cause error this operation would roll back
      */
     @Transactional
     public User updateStudent(int id, User user) {
@@ -62,7 +67,7 @@ public class UserService {
     public void RegisterNewStudent(SignUpDTO signUpDTO){
         int year = LocalDate.now().getYear();
         userValidationService.validateEmailUniqueness(signUpDTO.getEmail());
-        User user = userMapper.toEntity(signUpDTO);
+        User user = userMapper.toEntity(signUpDTO, passwordEncoder.encode(signUpDTO.getPassword()));
         saveStudent(user);
 
     }
@@ -94,7 +99,7 @@ public class UserService {
 
     public User mapSignUpDTOToUser(SignUpDTO signUpDTO) {
 
-        return userMapper.toEntity(signUpDTO);
+        return userMapper.toEntity(signUpDTO, passwordEncoder.encode(signUpDTO.getPassword()));
     }
 
 

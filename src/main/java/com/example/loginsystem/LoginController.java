@@ -1,8 +1,8 @@
 package com.example.loginsystem;
 
 
-import com.example.loginsystem.dto.LoginDTO;
-import com.example.loginsystem.service.JwtService;
+import com.example.loginsystem.model.dto.LoginDTO;
+import com.example.loginsystem.util.JwtUtils;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +13,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 
 @Slf4j
@@ -24,32 +27,34 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
 
     private final AuthenticationManager authenticationManager;
-    private final JwtService jwtService;
+    private final JwtUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public LoginController(  AuthenticationManager authenticationManager, JwtService jwtService, PasswordEncoder passwordEncoder ){
+    public LoginController(AuthenticationManager authenticationManager, JwtUtils jwtUtils, PasswordEncoder passwordEncoder ){
         this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
+        this.jwtUtils = jwtUtils;
         this.passwordEncoder = passwordEncoder;
     }
 
     @RequestMapping( value = "/login", method = RequestMethod.POST )
     public ResponseEntity<String> Login(@Valid @RequestBody LoginDTO loginDTO, BindingResult result) {
-        System.out.println(loginDTO.getStudentNumber());
-        System.out.println( loginDTO.getPassword() );
-        System.out.println(passwordEncoder.encode(loginDTO.getPassword()));
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginDTO.getStudentNumber(), loginDTO.getPassword())
+                    new UsernamePasswordAuthenticationToken(loginDTO.getUser_id(), loginDTO.getPassword())
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
+            log.info("Authentication stored in SecurityContextHolder: {}", authentication);
+
+            UserDetails  user = (UserDetails) authentication.getPrincipal();
             // 驗證成功後，從 Authentication 獲取用戶詳情
-            String token = jwtService.generateToken(authentication, 2);
+            Map<String, Object> claims = Map.of(
+                    "sub", user.getUsername(),
+                    "roles", user.getAuthorities()
+            );
+            String token = jwtUtils.generateToken(claims);
             // 使用認證後的用戶生成 JWT
-            System.out.println(authentication.getPrincipal()); // UserDetails
-            System.out.println(authentication.getAuthorities()); // 用戶權限
             return ResponseEntity.ok(token);
 
         } catch (AuthenticationException e) {

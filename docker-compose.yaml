@@ -1,11 +1,11 @@
-version: 11.2.0
+version: "3.8"
 services:
   mariadb:
-    image: mariadb
+    image: mariadb:latest
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: kk95681932
-    volumes:
-      - ./data/var/lib/mysql
+      MARIADB_ROOT_PASSWORD: kk95681932
     ports:
-      - 3306:3306
+      - "3307:3306"
+    volumes:
+      - ./data:/var/lib/mysql

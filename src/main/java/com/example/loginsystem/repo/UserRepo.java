@@ -17,7 +17,7 @@ public interface UserRepo extends JpaRepository<User, Integer> {
     //@Query("SELECT u FROM User u WHERE u.studentNumber = :userId")
     // student number 就是userId 因為怕跟id 搞混改用student number
     Optional<User> findByStudentNumber(String studentNumber);
-
+    Optional<User> findUserByEmail(String email );
 
 
     boolean existsByEmail(String email);
