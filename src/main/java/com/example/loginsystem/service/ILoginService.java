@@ -1,6 +1,6 @@
 package com.example.loginsystem.service;
 
-import com.example.loginsystem.dto.LoginDTO;
+import com.example.loginsystem.pojo.dto.LoginDTO;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -14,6 +14,5 @@ public  interface ILoginService {
      * @return JWT數據
      */
     @Transactional(rollbackFor = {Exception.class})
-    String login(LoginDTO loginDTO);
-
+    String generateToken(LoginDTO loginDTO);
 }

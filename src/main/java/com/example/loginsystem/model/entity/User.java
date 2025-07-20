@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
@@ -19,12 +20,12 @@ import java.util.List;
 @Entity
 @Data
 @Table( name = "user")
-public class User implements UserDetails {
+public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column(name = "user_id", unique = true, nullable = false)
-    private String studentNumber;
+    private Integer studentNumber;
 
     @Column(name = "first_name", length = 100)
     @Pattern(regexp = "^[A-Za-z0-9_]+$")

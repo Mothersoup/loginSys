@@ -3,14 +3,17 @@ package com.example.loginsystem.model.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-@Entity
 @Data
+@Entity
 @Table( name = "courses")
-public class Course {
+public class Course implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -21,8 +24,10 @@ public class Course {
     @Column(name = "course_code", length = 50, unique = true, nullable = false)
     private String courseCode;
 
-    @Column(name = "instructor_name", length = 100)
-    private String instructorName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "teacher_id", referencedColumnName = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User teacher;
 
     @Column(name = "created_at", updatable = false)
     @CreationTimestamp

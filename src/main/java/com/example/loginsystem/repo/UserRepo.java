@@ -1,10 +1,12 @@
 package com.example.loginsystem.repo;
 
 import com.example.loginsystem.model.entity.User;
+import org.springframework.aot.hint.annotation.Reflective;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.lang.annotation.RetentionPolicy;
 import java.util.Optional;
 
 /*
@@ -16,8 +18,11 @@ this is optional Jap will automatically generate sql command
 public interface UserRepo extends JpaRepository<User, Integer> {
     //@Query("SELECT u FROM User u WHERE u.studentNumber = :userId")
     // student number 就是userId 因為怕跟id 搞混改用student number
-    Optional<User> findByStudentNumber(String studentNumber);
+    @Query("SELECT u FROM User u WHERE u.studentNumber = :user_id")
+    Optional<User> findByStudentNumber( @Param("user_id") Integer studentNumber);
 
+
+    boolean existsByStudentNumber(  Integer studentNumber);
 
 
     boolean existsByEmail(String email);

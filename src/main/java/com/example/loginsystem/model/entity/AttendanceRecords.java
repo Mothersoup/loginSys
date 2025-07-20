@@ -4,13 +4,14 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 
 @Data
 @Entity
 @Table( name = "attendancerecords")
-public class AttendanceRecords {
+public class AttendanceRecords implements Serializable {
     @Id
     @GeneratedValue( strategy =  GenerationType.IDENTITY )
     private int id;

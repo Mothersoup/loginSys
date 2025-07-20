@@ -1,6 +1,7 @@
 package com.example.loginsystem;
 
 
+import com.example.loginsystem.util.QrcodeGenerator;
 import com.google.zxing.WriterException;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,7 @@ public class QrcodeTest {
 
         QrcodeGenerator generator = new QrcodeGenerator();
         try {
-            generator.showImage( QrcodeGenerator.genQrcodeImage(""));
+            generator.showImage( QrcodeGenerator.genQrcodeImage("helloe"));
 
             // 暫停 5 秒讓視窗停留
             Thread.sleep(5000000);

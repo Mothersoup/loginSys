@@ -6,8 +6,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
-
-@Configuration
+/**
+ *
+ *
+ * spring boot would auto configure the data source if you have the right dependencies in your pom.xml
+ * this type is hard coded, use application properties to configure the data source better than this
+ *
+ *
+ @Configuration
 public class DataSourceConfig {
         @Bean
         public DataSource dataSource() {
@@ -29,5 +35,5 @@ public class DataSourceConfig {
 
 }
 
-
+*/
 

@@ -1,0 +1,43 @@
+package com.example.loginsystem.pojo.mapper;
+
+
+import com.example.loginsystem.model.entity.User;
+import com.example.loginsystem.pojo.dto.SignUpDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
+@Component
+public class UserMapper {
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UserMapper( PasswordEncoder passwordEncoder){
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public User toEntity(SignUpDTO signUpDTO) {
+        User user = new User();
+        user.setStudentNumber(Integer.valueOf(signUpDTO.getStudentNumber()));
+        user.setEmail(signUpDTO.getEmail());
+        user.setFirstName(signUpDTO.getFirstName());
+        user.setLastName(signUpDTO.getLastName());
+        user.setPassword(passwordEncoder.encode(signUpDTO.getPassword()));
+        user.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        return user;
+    }
+
+    public SignUpDTO toDto(User user) {
+        SignUpDTO dto = new SignUpDTO();
+        dto.setStudentNumber(String.valueOf(user.getStudentNumber()) )  ;
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setEmail(user.getEmail());
+        return dto;
+    }
+
+
+}
