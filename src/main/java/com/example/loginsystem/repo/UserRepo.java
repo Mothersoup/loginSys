@@ -18,9 +18,14 @@ this is optional Jap will automatically generate sql command
 public interface UserRepo extends JpaRepository<User, Integer> {
     //@Query("SELECT u FROM User u WHERE u.studentNumber = :userId")
     // student number 就是userId 因為怕跟id 搞混改用student number
+<<<<<<< HEAD
     @Query("SELECT u FROM User u WHERE u.studentNumber = :user_id")
     Optional<User> findByStudentNumber( @Param("user_id") Integer studentNumber);
 
+=======
+    Optional<User> findByStudentNumber(String studentNumber);
+    Optional<User> findUserByEmail(String email );
+>>>>>>> 44cc6f89f907b34ea580ca5525ff27e69c424180
 
     boolean existsByStudentNumber(  Integer studentNumber);
 
